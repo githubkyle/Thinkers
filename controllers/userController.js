@@ -65,44 +65,46 @@ module.exports = {
       console.log("Failed to nuke that user and their thoughts");
     }
   },
-  async addFriend(req,res) {
-      try{
-          const user = await User.findOne({ _id: req.params.userId });
-          if(!user){
-              return res.status(404).json({message: "Error finding that user"}));
-          }
-          const friend = await User.findOne({_id: req.params.friendId});
-          if(!friend){
-              return res.status(404).json({message: "Couldn't find that friend"});
-          }
-          user.friends.push(friend._id);
-          await user.save();
-          res.json({ message: 'Successfully added friend!', user });
-      }
-      catch (err) {
-        console.log(err);
-        res.status(500).json(err);
-      }
-  },
-  async nukeFriend(req,res) {
+  async addFriend(req, res) {
     try {
-        const user = await User.findOne({ _id: req.params.userId });
-        if (!user) {
-          return res.status(404).json({ message: 'No users with that ID' });
-        }
-    
-        const friendId = req.params.friendId;
-        if (!user.friends.includes(friendId)) {
-          return res.status(404).json({ message: 'No friend with that ID in the user\'s friend list' });
-        }
-    
-        user.friends.pull(friendId);
-        await user.save();
-    
-        res.json({ message: 'Friend successfully removed', user });
-      } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
+      const user = await User.findOne({ _id: req.params.userId });
+      if (!user) {
+        return res.status(404).json({ message: "Error finding that user" });
       }
+      const friendId = req.params.friendId;
+      const friend = await User.findOne(friendId);
+      if (!friend) {
+        return res.status(404).json({ message: "Couldn't find that friend" });
+      }
+      user.friends.push(friend.id);
+      await user.save();
+      res.json({ message: "Successfully added friend!", user });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  },
+  async nukeFriend(req, res) {
+    try {
+      const user = await User.findOne({ _id: req.params.userId });
+      if (!user) {
+        return res.status(404).json({ message: "No users with that ID" });
+      }
+
+      const friendId = req.params.friendId;
+      if (!user.friends.includes(friendId)) {
+        return res.status(404).json({
+          message: "No friend with that ID in the user's friend list"
+        });
+      }
+
+      user.friends.pull(friendId);
+      await user.save();
+
+      res.json({ message: "Friend successfully removed", user });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
   }
 };

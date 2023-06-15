@@ -12,7 +12,7 @@ Tested the routes
 
 ## Contributing
 
-Myself and chatGPT were contributors on this project.
+Myself and helpful teachers were contributors on this project.
 
 ## License
 

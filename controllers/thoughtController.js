@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+const { Thought, User } = require("../models");
+=======
 const { Thought } = require("../models");
+>>>>>>> f773455a9ca237f3ab66d92689fb1d841930068c
 
 module.exports = {
   async getThoughts(req, res) {
@@ -27,6 +31,31 @@ module.exports = {
 
   async createThought(req, res) {
     try {
+<<<<<<< HEAD
+      const thoughtText = req.body.thoughtText;
+      const username = req.body.username;
+      const reactions = req.body.reactions;
+      const user = await User.findOne({ username });
+
+      // if (!user) {
+      //   return res.status(404).json({ error: "User not found" });
+      // }
+
+      const newThought = new Thought({ thoughtText, username, reactions });
+
+      if (!user.thoughts) {
+        user.thoughts = [];
+      }
+
+      user.thoughts.push(newThought);
+
+      await user.save();
+
+      res.json(newThought);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Failed to create that thought" });
+=======
       const thought = await Thought.create(req.body);
 
       this.user.thoughts.push(thought._id);
@@ -35,6 +64,7 @@ module.exports = {
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
+>>>>>>> f773455a9ca237f3ab66d92689fb1d841930068c
     }
   },
   async updateThought(req, res) {

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+const { Schema, model } = require("mongoose");
+=======
 const { Schema } = require("mongoose");
+>>>>>>> f773455a9ca237f3ab66d92689fb1d841930068c
 
 const userSchema = new Schema({
   username: {
@@ -21,27 +25,22 @@ const userSchema = new Schema({
   },
   thoughts: [
     {
-      type: mongoose.Schema.Types.ObjectID,
+      type: Schema.Types.ObjectId,
       ref: "Thought"
     }
   ],
   friends: [
     {
-      type: mongoose.Schema.Types.ObjectID,
-      ref: "User"
+      type: Schema.Types.ObjectId,
+      ref: "Users"
     }
-  ],
-  toJSON: {
-    virtuals: true
-  }
+  ]
 });
 
 userSchema.virtual("friendCount").get(function() {
   return this.friends.length;
 });
 
-// module.exports = userSchema;
+const Users = model("Users", userSchema);
 
-const User = mongoose.model("User", userSchema);
-
-module.exports = User;
+module.exports = Users;

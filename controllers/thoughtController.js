@@ -27,29 +27,14 @@ module.exports = {
 
   async createThought(req, res) {
     try {
-      const thoughtText = req.body.thoughtText;
-      const username = req.body.username;
-      const reactions = req.body.reactions;
-      const user = await User.findOne({ username });
+      const thought = await Thought.create(req.body);
 
-      // if (!user) {
-      //   return res.status(404).json({ error: "User not found" });
-      // }
-
-      const newThought = new Thought({ thoughtText, username, reactions });
-
-      if (!user.thoughts) {
-        user.thoughts = [];
-      }
-
-      user.thoughts.push(newThought);
-
-      await user.save();
-
-      res.json(newThought);
+      this.user.thoughts.push(thought._id);
+      await this.user.save();
+      res.json(thought);
     } catch (err) {
-      console.error(err);
-      return res.status(500).json({ error: "Failed to create that thought" });
+      console.log(err);
+      return res.status(500).json(err);
     }
   },
   async updateThought(req, res) {

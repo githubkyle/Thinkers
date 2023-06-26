@@ -29,8 +29,8 @@ module.exports = {
     try {
       const thought = await Thought.create(req.body);
 
-      this.user.thoughts.push(thought._id);
-      await this.user.save();
+      this.User.thoughts.push(thought._id);
+      await this.User.save();
       res.json(thought);
     } catch (err) {
       console.log(err);

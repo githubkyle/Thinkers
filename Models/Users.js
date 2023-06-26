@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 const { Schema, model } = require("mongoose");
+=======
+<<<<<<< HEAD
+const { Schema, model } = require("mongoose");
+=======
+const { Schema } = require("mongoose");
+>>>>>>> f773455a9ca237f3ab66d92689fb1d841930068c
+>>>>>>> 81e025345276975a967745c6523d498a0406c0b0
 
 const userSchema = new Schema({
   username: {

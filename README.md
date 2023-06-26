@@ -17,3 +17,7 @@ I alone finished this project.
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
+DEMO!!!
+
+[Demo.webm](https://github.com/githubkyle/Thinkers/assets/43896355/4f9d5553-5b0f-4cd3-80ad-4b331c6d5e0f)

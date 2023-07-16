@@ -1,4 +1,5 @@
 const { Schema, mongoose } = require("mongoose");
+const { ObjectId } = Schema.Types;
 
 const reactionSchema = new Schema({
   text: {
@@ -7,13 +8,17 @@ const reactionSchema = new Schema({
 });
 
 const thoughtsSchema = new Schema({
+  // thoughtId: {
+  //   type: ObjectId,
+  //   default: new ObjectId()
+  // },
   thoughtText: {
     type: String,
     required: true,
     minlength: 1,
     maxlength: 280
   },
-  username: {
+  userId: {
     type: String,
     required: true
   },
@@ -24,10 +29,7 @@ const thoughtsSchema = new Schema({
       return new Date(timestamp).toLocaleString;
     }
   },
-  reactions: [reactionSchema],
-  toJSON: {
-    virtuals: true
-  }
+  reactions: [reactionSchema]
 });
 
 thoughtsSchema.virtual("reactionCount").get(function() {

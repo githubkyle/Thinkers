@@ -1,10 +1,12 @@
 const { Schema } = require("mongoose");
 
 const reactionSchema = new Schema({
-  reactionId: {
-    type: ObjectId,
-    default: new ObjectId()
+
+  thoughtId: {
+    type: Number,
+    required: true
   },
+
   reactionBody: {
     type: String,
     required: true,

@@ -20,7 +20,8 @@ router
   .get(getOneUser)
   .put(updateUser)
   .delete(nukeUser)
-  .delete(nukeFriend)
   .post(addFriend);
 
+router.route("/:userId/friends").delete(nukeFriend);
+// NEW ROUTE FOR FRIENDS
 module.exports = router;

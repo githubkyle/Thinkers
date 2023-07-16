@@ -8,7 +8,7 @@ npm i and npm start to turn on the server
 
 ## Usage
 
-Tested the routes
+Test the routes
 
 ## Contributing
 

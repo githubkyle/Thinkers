@@ -38,9 +38,9 @@ module.exports = {
   },
   async updateUser(req, res) {
     try {
-      const user = await User.findOneAndUpdate(
+      await User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $set: req.body },
+        { $set: { username: req.body.username } },
         { runValidators: true, new: true }
       );
     } catch (err) {
@@ -54,7 +54,7 @@ module.exports = {
       if (!nuke) {
         return res
           .status(404)
-          .json({ message: "Error nuking user, now there's 2 of them!" });
+          .json({ message: "Error nuking that user, now there's 2 of them!" });
       }
       const thoughts = await Thought.deleteMany({
         username: req.params.userId
@@ -67,18 +67,19 @@ module.exports = {
   },
   async addFriend(req, res) {
     try {
-      const user = await User.findOne({ _id: req.params.userId });
-      if (!user) {
-        return res.status(404).json({ message: "Error finding that user" });
+      const { userId } = req.params;
+      const { friendId } = req.body;
+
+      if (!friendId) {
+        throw new Error("Friend ID is missing");
       }
-      const friendId = req.params.friendId;
-      const friend = await User.findOne(friendId);
-      if (!friend) {
-        return res.status(404).json({ message: "Couldn't find that friend" });
-      }
-      user.friends.push(friend.id);
-      await user.save();
-      res.json({ message: "Successfully added friend!", user });
+
+      const user = await User.findOneAndUpdate(
+        { _id: userId },
+        { $addToSet: { friends: friendId } }
+      );
+
+      res.status(200).json({ message: "Friend added successfully" });
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
@@ -86,22 +87,22 @@ module.exports = {
   },
   async nukeFriend(req, res) {
     try {
-      const user = await User.findOne({ _id: req.params.userId });
-      if (!user) {
-        return res.status(404).json({ message: "No users with that ID" });
-      }
+      const userId = req.params.userId;
+      const friendId = req.body.friendId;
+      const user = await User.findOneAndUpdate(
+        { _id: userId },
+        { $pull: { friends: friendId } }
+      );
 
-      const friendId = req.params.friendId;
       if (!user.friends.includes(friendId)) {
         return res.status(404).json({
           message: "No friend with that ID in the user's friend list"
         });
       }
 
-      user.friends.pull(friendId);
       await user.save();
 
-      res.json({ message: "Friend successfully removed", user });
+      res.json({ message: "Friends successfully cut ties", user });
     } catch (err) {
       console.log(err);
       res.status(500).json(err);

@@ -1,6 +1,6 @@
 # The User Network
 
-This is a user network where people can think free thoughts and have reactions to others' thoughts, as well as make friends with other users.
+This is a user network where people can express thoughts and have reactions to others' thoughts. Users are also able to become friends with other users.
 
 ## Installation
 
